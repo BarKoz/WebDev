@@ -52,39 +52,31 @@ function drawMap() {
 
 function drawSnake() {
     // draw all part of green snake
-    if (snake.direction === "right") {
+    for (let i = 0; i < snake.position.length; i++) {
         ctx.fillStyle = 'rgb(0,200,0)';
-        ctx.fillRect(snake.position[0].x * map.scale + 1, snake.position[0].y * map.scale + 1, map.scale - 2, map.scale - 2);
+        ctx.fillRect(snake.position[i].x * map.scale + 1, snake.position[i].y * map.scale + 1, map.scale - 2, map.scale - 2);
+    }
+    if (snake.direction === "right") {
         ctx.fillStyle = 'rgb(39,108,200)';
         ctx.fillRect(snake.position[0].x * map.scale + 45, snake.position[0].y * map.scale + 20, 5, 5);
         ctx.fillRect(snake.position[0].x * map.scale + 45, snake.position[0].y * map.scale + 45, 5, 5);
     }
     if (snake.direction === "left") {
-        ctx.fillStyle = 'rgb(0,200,0)';
-        ctx.fillRect(snake.position[0].x * map.scale + 1, snake.position[0].y * map.scale + 1, map.scale - 2, map.scale - 2);
         ctx.fillStyle = 'rgb(39,108,200)';
         ctx.fillRect(snake.position[0].x * map.scale + 20, snake.position[0].y * map.scale + 20, 5, 5);
         ctx.fillRect(snake.position[0].x * map.scale + 20, snake.position[0].y * map.scale + 45, 5, 5);
     }
     if (snake.direction === "up") {
-        ctx.fillStyle = 'rgb(0,200,0)';
-        ctx.fillRect(snake.position[0].x * map.scale + 1, snake.position[0].y * map.scale + 1, map.scale - 2, map.scale - 2);
         ctx.fillStyle = 'rgb(39,108,200)';
         ctx.fillRect(snake.position[0].x * map.scale + 20, snake.position[0].y * map.scale + 20, 5, 5);
         ctx.fillRect(snake.position[0].x * map.scale + 45, snake.position[0].y * map.scale + 20, 5, 5);
     }
     if (snake.direction === "down") {
-        ctx.fillStyle = 'rgb(0,200,0)';
-        ctx.fillRect(snake.position[0].x * map.scale + 1, snake.position[0].y * map.scale + 1, map.scale - 2, map.scale - 2);
         ctx.fillStyle = 'rgb(39,108,200)';
         ctx.fillRect(snake.position[0].x * map.scale + 20, snake.position[0].y * map.scale + 45, 5, 5);
         ctx.fillRect(snake.position[0].x * map.scale + 45, snake.position[0].y * map.scale + 45, 5, 5);
     }
 
-    for (let i = 1; i < snake.position.length; i++) {
-        ctx.fillStyle = 'rgb(0,200,0)';
-        ctx.fillRect(snake.position[i].x * map.scale + 1, snake.position[i].y * map.scale + 1, map.scale - 2, map.scale - 2);
-    }
 }
 
 function drawFood() {
