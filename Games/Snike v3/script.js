@@ -58,23 +58,23 @@ function drawSnake() {
     }
     if (snake.direction === "right") {
         ctx.fillStyle = 'rgb(39,108,200)';
-        ctx.fillRect(snake.position[0].x * map.scale + 45, snake.position[0].y * map.scale + 20, 5, 5);
-        ctx.fillRect(snake.position[0].x * map.scale + 45, snake.position[0].y * map.scale + 45, 5, 5);
+        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.75, snake.position[0].y * map.scale + map.scale*0.30, 5, 5);
+        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.75, snake.position[0].y * map.scale + map.scale*0.65, 5, 5);
     }
     if (snake.direction === "left") {
         ctx.fillStyle = 'rgb(39,108,200)';
-        ctx.fillRect(snake.position[0].x * map.scale + 20, snake.position[0].y * map.scale + 20, 5, 5);
-        ctx.fillRect(snake.position[0].x * map.scale + 20, snake.position[0].y * map.scale + 45, 5, 5);
+        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.25, snake.position[0].y * map.scale + map.scale*0.30, 5, 5);
+        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.25, snake.position[0].y * map.scale + map.scale*0.65, 5, 5);
     }
     if (snake.direction === "up") {
         ctx.fillStyle = 'rgb(39,108,200)';
-        ctx.fillRect(snake.position[0].x * map.scale + 20, snake.position[0].y * map.scale + 20, 5, 5);
-        ctx.fillRect(snake.position[0].x * map.scale + 45, snake.position[0].y * map.scale + 20, 5, 5);
+        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.30, snake.position[0].y * map.scale + map.scale*0.25, 5, 5);
+        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.65, snake.position[0].y * map.scale + map.scale*0.25, 5, 5);
     }
     if (snake.direction === "down") {
         ctx.fillStyle = 'rgb(39,108,200)';
-        ctx.fillRect(snake.position[0].x * map.scale + 20, snake.position[0].y * map.scale + 45, 5, 5);
-        ctx.fillRect(snake.position[0].x * map.scale + 45, snake.position[0].y * map.scale + 45, 5, 5);
+        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.30, snake.position[0].y * map.scale + map.scale*0.75, 5, 5);
+        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.65, snake.position[0].y * map.scale + map.scale*0.75, 5, 5);
     }
 }
 
@@ -168,7 +168,6 @@ function snakeTeleportOnBorder(snakeHead) {
     }
 }
 
-// time for drawing food and validation (removing the possibility of food appearing on the snake), additionally adding score up
 function randomNum(max) {
     return Math.floor(Math.random() * max);
 }
@@ -184,7 +183,6 @@ function foodInSnake(foodPos) {
 function foodInPremiumFood(premiumPosition) {
     return (premiumPosition === food.position);
 }
-
 // extension of the snake ^^ everyone wants that :D
 function snakeIsOnFood() {
     if (food.position === undefined) {
@@ -218,7 +216,7 @@ function checkIfSnakeIsOnAnyFood() {
         food.premiumPosition = undefined;
     }
 }
-// snake collisions that restart the game
+
 function isCollision() {
     for (let i = 1; i < snake.position.length; i++) {
         if (snake.position[i].x === snake.position[0].x && snake.position[i].y === snake.position[0].y) {
@@ -267,4 +265,3 @@ function scoreUp(howMany) {
     document.querySelector('h1').innerHTML = "Score: " + snake.score;
     acceleration();
 }
-// TODO oczy powinny się skalować
