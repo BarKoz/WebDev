@@ -32,7 +32,7 @@ let time = setInterval(game, snake.speed);
 // main Function "one function to rule them all" - Lord of the Coders
 function game() {
     moveSnake();
-    snakeTeleportOnBorder();
+    snakeTeleportOnBorder(snake.position[0]);
     if (snakeIsOnFood()) {
         scoreUp(10);
         snakeEatFood();
@@ -60,7 +60,7 @@ function drawSnake() {
     // draw all part of green snake
     for (let i = 0; i < snake.position.length; i++) {
         ctx.fillStyle = 'rgb(0,200,0)';
-        ctx.fillRect(snake.position[i].x * map.scale, snake.position[i].y * map.scale, map.scale - 2, map.scale - 2);
+        ctx.fillRect(snake.position[i].x * map.scale + 1, snake.position[i].y * map.scale + 1, map.scale - 2, map.scale - 2);
     }
 }
 
@@ -76,7 +76,7 @@ function drawFood() {
         food.premiumTimer = 0;
     }
     ctx.fillStyle = 'rgb(200,200,200)';
-    ctx.fillRect(food.position.x * map.scale, food.position.y * map.scale, map.scale - 2, map.scale - 2);
+    ctx.fillRect(food.position.x * map.scale + 1, food.position.y * map.scale + 1, map.scale - 2, map.scale - 2);
     // draw premium food
     if (!(snake.score % 50)) {
         if (food.premiumPosition === undefined) {
@@ -145,12 +145,12 @@ window.addEventListener('keydown', function (event) {
 }, false);
 
 // first feature crossing the wall
-function snakeTeleportOnBorder() {
-    if (snake.position[0].x === -1 || snake.position[0].x === map.x) {
-        (snake.position[0].x === -1) ? snake.position[0].x = map.x - 1 : snake.position[0].x = 0;
+function snakeTeleportOnBorder(snakeHead) {
+    if (snakeHead.x === -1 || snakeHead.x === map.x) {
+        (snakeHead.x === -1) ? snakeHead.x = map.x - 1 : snakeHead.x = 0;
     }
-    if (snake.position[0].y === -1 || snake.position[0].y === map.y) {
-        (snake.position[0].y === -1) ? snake.position[0].y = map.y - 1 : snake.position[0].y = 0;
+    else if (snakeHead.y === -1 || snakeHead.y === map.y) {
+        (snakeHead.y === -1) ? snakeHead.y = map.y - 1 : snakeHead.y = 0;
     }
 }
 
