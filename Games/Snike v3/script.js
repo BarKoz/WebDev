@@ -32,15 +32,9 @@ let time = setInterval(game, snake.speed);
 // main Function "one function to rule them all" - Lord of the Coders
 function game() {
     moveSnake();
+    checkIfSnakeIsOnAnyFood();
     snakeTeleportOnBorder(snake.position[0]);
-    if (snakeIsOnFood()) {
-        scoreUp(10);
-        snakeEatFood();
-    }
-    if (snakeIsOnPremiumFood()) {
-        scoreUp(20);
-        food.premiumPosition = undefined;
-    }
+    checkIfSnakeIsOnAnyFood();
     if (isCollision()) {
         restartGame(); //if collision is true reset the game
     }
@@ -192,7 +186,16 @@ function snakeEatFood() {
         y: snake.position[snake.position.length]
     });
 }
-
+function checkIfSnakeIsOnAnyFood() {
+    if (snakeIsOnFood()) {
+        scoreUp(10);
+        snakeEatFood();
+    }
+    else if (snakeIsOnPremiumFood()) {
+        scoreUp(20);
+        food.premiumPosition = undefined;
+    }
+}
 // snake collisions that restart the game
 function isCollision() {
     for (let i = 1; i < snake.position.length; i++) {
