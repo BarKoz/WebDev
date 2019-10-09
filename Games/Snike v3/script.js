@@ -36,7 +36,7 @@ function game() {
     snakeTeleportOnBorder(snake.position[0]);
     checkIfSnakeIsOnAnyFood();
     if (isCollision()) {
-        restartGame(); //if collision is true reset the game
+        restartGame();
     }
     drawMap();
     drawSnake();
@@ -76,7 +76,6 @@ function drawSnake() {
         ctx.fillRect(snake.position[0].x * map.scale + 20, snake.position[0].y * map.scale + 45, 5, 5);
         ctx.fillRect(snake.position[0].x * map.scale + 45, snake.position[0].y * map.scale + 45, 5, 5);
     }
-
 }
 
 function drawFood() {
@@ -87,7 +86,7 @@ function drawFood() {
                 x: randomNum(map.x),
                 y: randomNum(map.y)
             }
-        } while (foodInSnake(food.position.x, food.position.y));
+        } while (foodInSnake(food.position));
         food.premiumTimer = 0;
     }
     ctx.fillStyle = 'rgb(200,200,200)';
@@ -100,12 +99,12 @@ function drawFood() {
                     x: randomNum(map.x),
                     y: randomNum(map.y)
                 }
-            } while (foodInSnake(food.premiumPosition.x, food.premiumPosition.y));
+            } while (foodInSnake(food.premiumPosition) || foodInPremiumFood(food.premiumPosition));
         }
         food.premiumTimer++;
         if (food.premiumTimer < 16) {
             ctx.fillStyle = 'rgb(210,214,27)';
-            ctx.fillRect(food.premiumPosition.x * map.scale, food.premiumPosition.y * map.scale, map.scale - 2, map.scale - 2);
+            ctx.fillRect(food.premiumPosition.x * map.scale + 1, food.premiumPosition.y * map.scale + 1, map.scale - 2, map.scale - 2);
         }
     }
 }
@@ -171,17 +170,19 @@ function snakeTeleportOnBorder(snakeHead) {
 
 // time for drawing food and validation (removing the possibility of food appearing on the snake), additionally adding score up
 function randomNum(max) {
-    let min = 0;
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * max);
 }
 
-function foodInSnake(foodPosX, foodPosY) {
+function foodInSnake(foodPos) {
     for (let i = 0; i < snake.position.length; i++) {
-        if (snake.position[i].x === foodPosX && snake.position[i].y === foodPosY) {
+        if (snake.position[i].x === foodPos.x && snake.position[i].y === foodPos.y) {
             return true;
         }
     }
     return false;
+}
+function foodInPremiumFood(premiumPosition) {
+    return (premiumPosition === food.position);
 }
 
 // extension of the snake ^^ everyone wants that :D
@@ -266,3 +267,4 @@ function scoreUp(howMany) {
     document.querySelector('h1').innerHTML = "Score: " + snake.score;
     acceleration();
 }
+// TODO oczy powinny się skalować
