@@ -184,18 +184,11 @@ function foodInPremiumFood(premiumPosition) {
     return (premiumPosition === food.position);
 }
 // extension of the snake ^^ everyone wants that :D
-function snakeIsOnFood() {
-    if (food.position === undefined) {
+function snakeIsOnFood(position, premiumTimer = 0) {
+    if (position === undefined) {
         return false;
     }
-    return (snake.position[0].x === food.position.x && snake.position[0].y === food.position.y);
-}
-
-function snakeIsOnPremiumFood() {
-    if (food.premiumPosition === undefined) {
-        return false;
-    }
-    return (snake.position[0].x === food.premiumPosition.x && snake.position[0].y === food.premiumPosition.y && food.premiumTimer < 15);
+    return (snake.position[0].x === position.x && snake.position[0].y === position.y && premiumTimer < 15);
 }
 
 function snakeEatFood() {
@@ -207,11 +200,11 @@ function snakeEatFood() {
     });
 }
 function checkIfSnakeIsOnAnyFood() {
-    if (snakeIsOnFood()) {
+    if (snakeIsOnFood(food.position)) {
         scoreUp(10);
         snakeEatFood();
     }
-    else if (snakeIsOnPremiumFood()) {
+    else if (snakeIsOnFood(food.premiumPosition,food.premiumTimer)) {
         scoreUp(20);
         food.premiumPosition = undefined;
     }
