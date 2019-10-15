@@ -111,14 +111,21 @@ function drawFood() {
 }
 
 function moveSnake() {
-    if (snake.direction === 'right') {
-        snake.position.unshift({x: snake.position[0].x + 1, y: snake.position[0].y});
-    } else if (snake.direction === 'left') {
-        snake.position.unshift({x: snake.position[0].x - 1, y: snake.position[0].y});
-    } else if (snake.direction === 'up') {
-        snake.position.unshift({x: snake.position[0].x, y: snake.position[0].y - 1});
-    } else if (snake.direction === 'down') {
-        snake.position.unshift({x: snake.position[0].x, y: snake.position[0].y + 1});
+    switch (snake.direction) {
+        case 'right':
+            snake.position.unshift({x: snake.position[0].x + 1, y: snake.position[0].y});
+            break;
+        case 'left':
+            snake.position.unshift({x: snake.position[0].x - 1, y: snake.position[0].y});
+            break;
+        case 'up':
+            snake.position.unshift({x: snake.position[0].x, y: snake.position[0].y - 1});
+            break;
+        case 'down':
+            snake.position.unshift({x: snake.position[0].x, y: snake.position[0].y + 1});
+            break;
+        default:
+            console.log('Error moveSnake()');
     }
     snake.position.pop();
 }
