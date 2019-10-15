@@ -267,3 +267,10 @@ function scoreUp(howMany) {
     document.querySelector('h1').innerHTML = "Score: " + snake.score;
     acceleration();
 }
+
+//TODO remember DRY
+//TODO FOOD eat graphic
+//TODO add options
+//TODO add tests
+//TODO simplify code
+//TODO update game (add new fetchers)
