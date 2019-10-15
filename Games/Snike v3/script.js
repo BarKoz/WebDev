@@ -2,7 +2,7 @@
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 // Variable configuration map, scale, speed
-let map = {
+const map = {
     scale: 70,
     x: 12,
     y: 8
@@ -10,7 +10,7 @@ let map = {
 // snake and food objects
 let snake = {
     speed: 500,
-    fastSpeedUp: 25,
+    howFastSpeedUp: 25,
     position: [
         {x: 3, y: 2},
         {x: 2, y: 2},
@@ -56,25 +56,26 @@ function drawSnake() {
         ctx.fillStyle = 'rgb(0,200,0)';
         ctx.fillRect(snake.position[i].x * map.scale + 1, snake.position[i].y * map.scale + 1, map.scale - 2, map.scale - 2);
     }
-    if (snake.direction === "right") {
-        ctx.fillStyle = 'rgb(39,108,200)';
-        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.75, snake.position[0].y * map.scale + map.scale*0.30, 5, 5);
-        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.75, snake.position[0].y * map.scale + map.scale*0.65, 5, 5);
-    }
-    if (snake.direction === "left") {
-        ctx.fillStyle = 'rgb(39,108,200)';
-        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.25, snake.position[0].y * map.scale + map.scale*0.30, 5, 5);
-        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.25, snake.position[0].y * map.scale + map.scale*0.65, 5, 5);
-    }
-    if (snake.direction === "up") {
-        ctx.fillStyle = 'rgb(39,108,200)';
-        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.30, snake.position[0].y * map.scale + map.scale*0.25, 5, 5);
-        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.65, snake.position[0].y * map.scale + map.scale*0.25, 5, 5);
-    }
-    if (snake.direction === "down") {
-        ctx.fillStyle = 'rgb(39,108,200)';
-        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.30, snake.position[0].y * map.scale + map.scale*0.75, 5, 5);
-        ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.65, snake.position[0].y * map.scale + map.scale*0.75, 5, 5);
+    ctx.fillStyle = 'rgb(39,108,200)';
+    switch (snake.direction) {
+        case "right":
+            ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.75, snake.position[0].y * map.scale + map.scale*0.30, 5, 5);
+            ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.75, snake.position[0].y * map.scale + map.scale*0.65, 5, 5);
+            break;
+        case "left":
+            ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.25, snake.position[0].y * map.scale + map.scale*0.30, 5, 5);
+            ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.25, snake.position[0].y * map.scale + map.scale*0.65, 5, 5);
+            break;
+        case "up":
+            ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.30, snake.position[0].y * map.scale + map.scale*0.25, 5, 5);
+            ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.65, snake.position[0].y * map.scale + map.scale*0.25, 5, 5);
+            break;
+        case "down":
+            ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.30, snake.position[0].y * map.scale + map.scale*0.75, 5, 5);
+            ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.65, snake.position[0].y * map.scale + map.scale*0.75, 5, 5);
+            break;
+        default:
+            console.log('Draw snake error');
     }
 }
 
@@ -131,34 +132,29 @@ window.addEventListener('keydown', function (event) {
                 snake.direction = "left";
             }
             break;
-
         case 'ArrowUp':
         case 'KeyW':
             if (snake.direction !== "down" && snake.lastDirection !== "down") {
                 snake.direction = "up";
             }
             break;
-
         case 'ArrowRight':
         case 'KeyD':
             if (snake.direction !== "left" && snake.lastDirection !== "left") {
                 snake.direction = "right";
             }
             break;
-
         case 'ArrowDown':
         case 'KeyS':
             if (snake.direction !== "up" && snake.lastDirection !== "up") {
                 snake.direction = "down";
             }
             break;
-
         default:
             break;
     }
 }, false);
 
-// first feature crossing the wall
 function snakeTeleportOnBorder(snakeHead) {
     if (snakeHead.x === -1 || snakeHead.x === map.x) {
         (snakeHead.x === -1) ? snakeHead.x = map.x - 1 : snakeHead.x = 0;
@@ -183,7 +179,7 @@ function foodInSnake(foodPos) {
 function foodInPremiumFood(premiumPosition) {
     return (premiumPosition === food.position);
 }
-// extension of the snake ^^ everyone wants that :D
+
 function snakeIsOnFood(position, premiumTimer = 0) {
     if (position === undefined) {
         return false;
@@ -199,6 +195,7 @@ function snakeEatFood() {
         y: snake.position[snake.position.length]
     });
 }
+
 function checkIfSnakeIsOnAnyFood() {
     if (snakeIsOnFood(food.position)) {
         scoreUp(10);
@@ -222,7 +219,7 @@ function isCollision() {
 function restartGame() {
     snake = {
         speed: 500,
-        fastSpeedUp: 25,
+        howFastSpeedUp: 25,
         position: [
             {x: 3, y: 2},
             {x: 2, y: 2},
@@ -242,12 +239,11 @@ function restartGame() {
     time = setInterval(game, snake.speed);
 }
 
-// time turn faster when score up
 function acceleration() {
     clearInterval(time);
-    if (snake.fastSpeedUp > 0) {
-        snake.speed -= snake.fastSpeedUp;
-        snake.fastSpeedUp--;
+    if (snake.howFastSpeedUp > 0) {
+        snake.speed -= snake.howFastSpeedUp;
+        snake.howFastSpeedUp--;
     }
     time = setInterval(game, snake.speed);
 }
