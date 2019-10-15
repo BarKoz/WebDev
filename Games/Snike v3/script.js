@@ -163,11 +163,17 @@ window.addEventListener('keydown', function (event) {
 }, false);
 
 function snakeTeleportOnBorder(snakeHead) {
-    if (snakeHead.x === -1 || snakeHead.x === map.x) {
-        (snakeHead.x === -1) ? snakeHead.x = map.x - 1 : snakeHead.x = 0;
+    if (snakeHead.x === -1) {
+        snakeHead.x = map.x - 1;
     }
-    else if (snakeHead.y === -1 || snakeHead.y === map.y) {
-        (snakeHead.y === -1) ? snakeHead.y = map.y - 1 : snakeHead.y = 0;
+    if (snakeHead.x === map.x){
+        snakeHead.x = 0;
+    }
+    if (snakeHead.y === -1) {
+        snakeHead.y = map.x - 1;
+    }
+    if (snakeHead.y === map.x){
+        snakeHead.y = 0;
     }
 }
 
