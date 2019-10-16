@@ -105,7 +105,18 @@ function drawFood() {
         food.premiumTimer++;
         if (food.premiumTimer < 16) {
             ctx.fillStyle = 'rgb(210,214,27)';
-            ctx.fillRect(food.premiumPosition.x * map.scale + 1, food.premiumPosition.y * map.scale + 1, map.scale - 2, map.scale - 2);
+            ctx.beginPath();
+            ctx.moveTo(food.premiumPosition.x * map.scale + map.scale * 0.50,food.premiumPosition.y * map.scale);
+            ctx.lineTo(food.premiumPosition.x * map.scale + map.scale * 0.60,food.premiumPosition.y * map.scale + map.scale * 0.3);
+            ctx.lineTo(food.premiumPosition.x * map.scale + map.scale,food.premiumPosition.y * map.scale + map.scale * 0.25);
+            ctx.lineTo(food.premiumPosition.x * map.scale + map.scale * 0.70,food.premiumPosition.y * map.scale + map.scale * 0.55);
+            ctx.lineTo(food.premiumPosition.x * map.scale + map.scale * 0.90,food.premiumPosition.y * map.scale + map.scale);
+            ctx.lineTo(food.premiumPosition.x * map.scale + map.scale * 0.50,food.premiumPosition.y * map.scale + map.scale * 0.70);
+            ctx.lineTo(food.premiumPosition.x * map.scale + map.scale * 0.10,food.premiumPosition.y * map.scale + map.scale);
+            ctx.lineTo(food.premiumPosition.x * map.scale + map.scale * 0.30,food.premiumPosition.y * map.scale + map.scale * 0.55);
+            ctx.lineTo(food.premiumPosition.x * map.scale,food.premiumPosition.y * map.scale + map.scale * 0.25);
+            ctx.lineTo(food.premiumPosition.x * map.scale + map.scale * 0.40,food.premiumPosition.y * map.scale + map.scale * 0.30);
+            ctx.fill();
         }
     }
 }
