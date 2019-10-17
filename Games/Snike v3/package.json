@@ -1,0 +1,18 @@
+{
+  "name": "snike",
+  "version": "3.0.1",
+  "description": "simple game",
+  "main": "script.js",
+  "scripts": {
+    "dev": "parcel ./src/index.html --no-cache --no-source-maps",
+    "build": "parcel build ./src/index.html --out-dir=build --no-cache --no-source-maps"
+  },
+  "author": "Bartlomiej Kozanka - Lipka",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {}
+}

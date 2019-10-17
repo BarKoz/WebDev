@@ -75,7 +75,7 @@ function drawSnake() {
             ctx.fillRect(snake.position[0].x * map.scale + map.scale*0.65, snake.position[0].y * map.scale + map.scale*0.75, 5, 5);
             break;
         default:
-            console.log('Draw snake error');
+            console.log('Draw snake.direction error');
     }
 }
 
@@ -181,9 +181,9 @@ function snakeTeleportOnBorder(snakeHead) {
         snakeHead.x = 0;
     }
     if (snakeHead.y === -1) {
-        snakeHead.y = map.x - 1;
+        snakeHead.y = map.y - 1;
     }
-    if (snakeHead.y === map.x){
+    if (snakeHead.y === map.y){
         snakeHead.y = 0;
     }
 }
