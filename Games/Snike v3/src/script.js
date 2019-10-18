@@ -285,3 +285,4 @@ function scoreUp(howMany) {
 //TODO add tests
 //TODO simplify code
 //TODO update game (add new fetchers)
+//TODO learn more :D
