@@ -31,7 +31,7 @@ let food = {
     premiumTimer: 0
 }
 
-let time = setTimeout(menu, 100);
+let time = setTimeout(menu, 1000);
 // main Function "one function to rule them all" - Lord of the Coders
 function game() {
     moveSnake();
@@ -317,7 +317,6 @@ function restartVariables() {
     }
     document.querySelector('h1').innerHTML = "Score: " + snake.score;
     clearInterval(time);
-    time = setInterval(game, snake.speed);
 }
 //TODO remember DRY
 //TODO FOOD eat graphic
