@@ -7,6 +7,9 @@ const map = {
     x: 12,
     y: 8
 };
+}
+canvas.height = map.y * map.scale;
+canvas.width = map.x * map.scale;
 // snake and food objects
 let snake = {
     speed: 500,
@@ -18,17 +21,18 @@ let snake = {
     ],
     direction: "right",
     lastDirection: "right",
-    score: 0
-};
+    score: 0,
+    lastScore: 0,
+    bestScore: 0
+}
+
 let food = {
     position: undefined,
     premiumPosition: undefined,
     premiumTimer: 0
-};
-canvas.height = map.y * map.scale;
-canvas.width = map.x * map.scale;
-let time = setInterval(game, snake.speed);
+}
 
+let time = setTimeout(menu, 100);
 // main Function "one function to rule them all" - Lord of the Coders
 function game() {
     moveSnake();
@@ -36,7 +40,13 @@ function game() {
     snakeTeleportOnBorder(snake.position[0]);
     checkIfSnakeIsOnAnyFood();
     if (isCollision()) {
-        restartGame();
+        clearInterval(time);
+        restartSnakeAndFood();
+        if (snake.lastScore > snake.bestScore) {
+            snake.bestScore = snake.lastScore;
+        }
+        endGameMenu();
+        return;
     }
     drawMap();
     drawSnake();
@@ -44,10 +54,40 @@ function game() {
     snake.lastDirection = snake.direction;
 }
 
+function startGame() {
+    clearInterval(time);
+    canvas.removeEventListener("click", startGame, false);
+    time = setInterval(game, snake.speed);
+}
+
+function menu() {
+    drawMap();
+    drawMenu();
+    canvas.addEventListener("click", startGame, false);
+}
+
+function endGameMenu() {
+    ctx.textAlign = 'center';
+    ctx.font = "50px Arial";
+    ctx.fillStyle = "rgb(255,255,255)";
+    ctx.fillText("You Score: " + snake.lastScore, canvas.width / 2, canvas.height / 2);
+    ctx.fillText("Best Score: " + snake.bestScore, canvas.width / 2, canvas.height / 2 + 50);
+    ctx.fillText("Click to new game :)", canvas.width / 2, canvas.height / 2 + 100);
+    canvas.addEventListener("click", startGame, false);
+}
+
 function drawMap() {
     // Black rect is a map
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'rgb(0,0,0)';
     ctx.fillRect(0, 0, map.x * map.scale, map.y * map.scale);
+}
+
+function drawMenu() {
+    ctx.textAlign = 'center';
+    ctx.font = "40px Arial";
+    ctx.fillStyle = "rgb(255,255,255)";
+    ctx.fillText("Click to play!", canvas.width / 2, canvas.height / 2);
 }
 
 function drawSnake() {
@@ -201,7 +241,7 @@ function foodInSnake(foodPos) {
     return false;
 }
 function foodInPremiumFood(premiumPosition) {
-    return (premiumPosition === food.position);
+    return (premiumPosition.x === food.position.x && premiumPosition.y === food.position.y);
 }
 
 function snakeIsOnFood(position, premiumTimer = 0) {
@@ -279,6 +319,27 @@ function scoreUp(howMany) {
     acceleration();
 }
 
+function restartSnakeAndFood() {
+    snake = {
+        speed: 500,
+        howFastSpeedUp: 25,
+        position: [
+            {x: 3, y: 2},
+            {x: 2, y: 2},
+            {x: 1, y: 2}
+        ],
+        direction: "right",
+        lastDirection: "right",
+        score: 0,
+        lastScore: snake.score,
+        bestScore: snake.bestScore
+    }
+    food = {
+        position: undefined,
+        premiumPosition: undefined,
+        premiumTimer: 0
+    }
+}
 //TODO remember DRY
 //TODO FOOD eat graphic
 //TODO add options
