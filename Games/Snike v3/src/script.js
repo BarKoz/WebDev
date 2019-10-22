@@ -6,7 +6,6 @@ const map = {
     scale: 70,
     x: 12,
     y: 8
-};
 }
 canvas.height = map.y * map.scale;
 canvas.width = map.x * map.scale;
@@ -41,7 +40,7 @@ function game() {
     checkIfSnakeIsOnAnyFood();
     if (isCollision()) {
         clearInterval(time);
-        restartSnakeAndFood();
+        restartVariables();
         if (snake.lastScore > snake.bestScore) {
             snake.bestScore = snake.lastScore;
         }
@@ -280,29 +279,6 @@ function isCollision() {
     return false;
 }
 
-function restartGame() {
-    snake = {
-        speed: 500,
-        howFastSpeedUp: 25,
-        position: [
-            {x: 3, y: 2},
-            {x: 2, y: 2},
-            {x: 1, y: 2}
-        ],
-        direction: "right",
-        lastDirection: "right",
-        score: 0
-    };
-    food = {
-        position: undefined,
-        premiumPosition: undefined,
-        premiumTimer: 0
-    };
-    document.querySelector('h1').innerHTML = "Score: " + snake.score;
-    clearInterval(time);
-    time = setInterval(game, snake.speed);
-}
-
 function acceleration() {
     clearInterval(time);
     if (snake.howFastSpeedUp > 0) {
@@ -319,7 +295,7 @@ function scoreUp(howMany) {
     acceleration();
 }
 
-function restartSnakeAndFood() {
+function restartVariables() {
     snake = {
         speed: 500,
         howFastSpeedUp: 25,
@@ -339,6 +315,9 @@ function restartSnakeAndFood() {
         premiumPosition: undefined,
         premiumTimer: 0
     }
+    document.querySelector('h1').innerHTML = "Score: " + snake.score;
+    clearInterval(time);
+    time = setInterval(game, snake.speed);
 }
 //TODO remember DRY
 //TODO FOOD eat graphic
